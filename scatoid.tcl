@@ -12,7 +12,32 @@ proc Scatoid::Geometry { win } {
 
 
 proc Scatoid::DrawGeometryButtonAction { } { 
-    W "arroz"
+    # Get the window parameters
+    set nvertex_top [smart_wizard::GetProperty Geometry NVertexTop,value]
+    set radius_top [smart_wizard::GetProperty Geometry RadiusTop,value]
+    set nvertex_bottom [smart_wizard::GetProperty Geometry NVertexBottom,value]
+    set radius_bottom [smart_wizard::GetProperty Geometry RadiusBottom,value]
+    set height [smart_wizard::GetProperty Geometry Height,value]
+
+    # Draw the figure
+    DrawGeometry $nvertex_top $radius_top $nvertex_bottom $radius_bottom $height
+}
+
+proc Scatoid::DrawGeometry {nvertex_top radius_top nvertex_bottom radius_bottom height} {
+    # Create bottom surface
+    GiD_Process Geometry Create Object PolygonPNR $nvertex_bottom 0.0 0.0 0.0 0.0 0.0 1.0 $radius_bottom escape escape 
+    for {set i 1} {$i <= $nvertex_bottom} {incr i} {
+        lappend bottom_points $i
+    }
+
+    # Create top surface
+    GiD_Process Geometry Create Object PolygonPNR $nvertex_top 0.0 0.0 $height 0.0 0.0 1.0 $radius_top escape escape 
+    for {set i 1} {$i <= $nvertex_top} {incr i} {
+        lappend top_points [expr $nvertex_bottom + $i]
+    }
+
+    set diff [expr $nvertex_bottom - $nvertex_top]
+    
 }
 
 proc Scatoid::InitWizard { } {   

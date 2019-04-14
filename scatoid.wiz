@@ -12,7 +12,7 @@
         <Frame n="Data" position="left" title="Define geometrical data">
           <Item n="NVertexTop" pn="Number of top vertex" v="5" type="integer" />
           <Item n="RadiusTop" pn="Top radius" v="10" type="double" />
-          <Item n="NVertex" pn="Number of bottom vertex" v="6" type="integer" />
+          <Item n="NVertexBottom" pn="Number of bottom vertex" v="6" type="integer" />
           <Item n="RadiusBottom" pn="Bottom radius" v="10" type="double" />
           <Item n="Height" pn="Height" v="10" type="double" />
           <Item n="DrawButton" pn="Create geometry" type="button" v="Scatoid::DrawGeometryButtonAction" />
