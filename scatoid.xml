@@ -1,0 +1,9 @@
+<!-- -*- coding: utf-8;-*- -->
+<InfoPlugin version="1.0">
+  <Program>
+    <Name>Scatoid</Name>
+    <Version>0.1</Version>
+    <MinimumGiDVersion>14.0.0</MinimumGiDVersion>
+    <Description>Interface to create scatoids</Description>
+  </Program>
+</InfoPlugin>
