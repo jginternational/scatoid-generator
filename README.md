@@ -1,2 +1,2 @@
-# scatoid-generator
-GiD geometry generator for scatoids
+# scutoid-generator
+GiD geometry generator for scutoids

@@ -1,17 +1,17 @@
-# GiD-Plugin to create scatoid figures
+# GiD-Plugin to create scutoid figures
 package require gid_smart_wizard
 
-namespace eval Scatoid {         
+namespace eval Scutoid {         
     variable dir
 }
 
 
-proc Scatoid::Geometry { win } { 
+proc Scutoid::Geometry { win } { 
     smart_wizard::AutoStep $win Geometry
 }
 
 
-proc Scatoid::DrawGeometryButtonAction { } { 
+proc Scutoid::DrawGeometryButtonAction { } { 
     # Get the window parameters
     set nvertex_top [smart_wizard::GetProperty Geometry NVertexTop,value]
     set radius_top [smart_wizard::GetProperty Geometry RadiusTop,value]
@@ -23,10 +23,10 @@ proc Scatoid::DrawGeometryButtonAction { } {
     DrawGeometry $nvertex_top $radius_top $nvertex_bottom $radius_bottom $height
 }
 
-proc Scatoid::DrawGeometry {nvertex_top radius_top nvertex_bottom radius_bottom height} {
+proc Scutoid::DrawGeometry {nvertex_top radius_top nvertex_bottom radius_bottom height} {
 
-    if {[GiD_Layers exists Scatoid]} {GiD_Layers delete Scatoid}
-    GiD_Layers create Scatoid
+    if {[GiD_Layers exists Scutoid]} {GiD_Layers delete Scutoid}
+    GiD_Layers create Scutoid
 
     # Create bottom surface
     GiD_Process Geometry Create Object PolygonPNR $nvertex_bottom 0.0 0.0 0.0 0.0 0.0 1.0 $radius_bottom escape escape 
@@ -66,17 +66,17 @@ proc Scatoid::DrawGeometry {nvertex_top radius_top nvertex_bottom radius_bottom 
         GiD_Geometry delete line {*}$tmp_lines
         set tmp_lines [list ]
         GiD_Layers delete tmp
-        GiD_Layers edit to_use Scatoid
-        set center_point [GiD_Geometry create point append Scatoid {*}$center]
-        set strange_pair_1 [GiD_Geometry -v2 create line append stline Scatoid [lindex $specials 0] $center_point]
-        set strange_pair_2 [GiD_Geometry -v2 create line append stline Scatoid [lindex $specials 1] $center_point]
-        set strange [GiD_Geometry -v2 create line append stline Scatoid [lindex $specials 2] $center_point]
+        GiD_Layers edit to_use Scutoid
+        set center_point [GiD_Geometry create point append Scutoid {*}$center]
+        set strange_pair_1 [GiD_Geometry -v2 create line append stline Scutoid [lindex $specials 0] $center_point]
+        set strange_pair_2 [GiD_Geometry -v2 create line append stline Scutoid [lindex $specials 1] $center_point]
+        set strange [GiD_Geometry -v2 create line append stline Scutoid [lindex $specials 2] $center_point]
 
         set bottom_points_clear [lsearch -inline -all -not -exact $bottom_points [lindex $specials 2]]
         set top_points_clear [lsearch -inline -all -not -exact $top_points [lindex $specials 2]]
         
         for {set i 0} {$i < [llength $bottom_points_clear]} {incr i} {
-            lappend vertical_lines [GiD_Geometry -v2 create line append stline Scatoid [lindex $bottom_points_clear $i] [lindex $top_points_clear $i]]
+            lappend vertical_lines [GiD_Geometry -v2 create line append stline Scutoid [lindex $bottom_points_clear $i] [lindex $top_points_clear $i]]
         }
         WV bottom_points_clear
         WV top_points_clear
@@ -85,23 +85,23 @@ proc Scatoid::DrawGeometry {nvertex_top radius_top nvertex_bottom radius_bottom 
 
 }
 
-proc Scatoid::InitWizard { } {   
+proc Scutoid::InitWizard { } {   
     variable dir
 
     if { [GidUtils::IsTkDisabled] } {  
         return
     }          
     smart_wizard::Init
-    smart_wizard::SetWizardNamespace "::Scatoid"
-    smart_wizard::SetWizardWindowName ".gid.scatoidwizard"
+    smart_wizard::SetWizardNamespace "::Scutoid"
+    smart_wizard::SetWizardWindowName ".gid.scutoidwizard"
     smart_wizard::SetWizardImageDirectory [file join $dir images]
-    smart_wizard::LoadWizardDoc [file join $dir scatoid.wiz]
+    smart_wizard::LoadWizardDoc [file join $dir scutoid.wiz]
     smart_wizard::ImportWizardData
 
     
 }
 
-proc Scatoid::AddToMenu { } {
+proc Scutoid::AddToMenu { } {
     variable dir
     set dir [file dirname [info script]]
 
@@ -111,7 +111,7 @@ proc Scatoid::AddToMenu { } {
     if { $::GidPriv(HideVolumeLevel) == 1 } {
         return
     }
-    if { [GiDMenu::GetOptionIndex Geometry [list Create Object Scatoid] PRE] != -1 } {
+    if { [GiDMenu::GetOptionIndex Geometry [list Create Object Scutoid] PRE] != -1 } {
         return
     }
     #try to insert this menu after the word "Mesh->Generate mesh"
@@ -119,9 +119,9 @@ proc Scatoid::AddToMenu { } {
     if { $position == -1 } {
         set position end
     }
-    GiDMenu::InsertOption Geometry [list Create Object Scatoid] $position PRE smart_wizard::CreateWindow "" "" insertafter _   
+    GiDMenu::InsertOption Geometry [list Create Object Scutoid] $position PRE smart_wizard::CreateWindow "" "" insertafter _   
 }
 
-Scatoid::AddToMenu
+Scutoid::AddToMenu
 GiDMenu::UpdateMenus
-Scatoid::InitWizard
+Scutoid::InitWizard
